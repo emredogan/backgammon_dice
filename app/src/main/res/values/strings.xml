@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Tavla Zarı</string>
+    <string name="roll">Salla</string>
+    <string name="previous_dice_string">"Bir önceki zar: %1$d - %2$s"</string>
+    <string name="please_shake_text">\Zar atmak için telefonunuzu sallayın veya SALLA buttonuna basın.</string>
+
+</resources>
