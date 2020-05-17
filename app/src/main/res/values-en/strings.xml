@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Backgammon Dice</string>
     <string name="roll">Roll</string>
@@ -7,5 +8,4 @@
     <string name="okay">Okay</string>
     <string name="dont_show_text">Don\'t show this screen again</string>
     <string name="welcome_string">Welcome</string>
-
 </resources>
