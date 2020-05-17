@@ -11,10 +11,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.intro_dialog.view.*
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 
@@ -30,10 +30,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             = 0f
     private lateinit var mediaPlayer: MediaPlayer
     private var isRolling = false
-    private var previousDice = Pair(1,1)
     private var numberOfDicesRolled = 0
-    var randomNumber1 = 1
-    var randomNumber2 = 1
+    private var randomNumber1 = 1
+    private var randomNumber2 = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +40,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-        sensorManager.registerListener(mSensorListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        mAccel = 0.00f;
-        mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        mAccelLast = SensorManager.GRAVITY_EARTH;
+        sensorManager.registerListener(mSensorListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL)
+        mAccel = 0.00f
+        mAccelCurrent = SensorManager.GRAVITY_EARTH
+        mAccelLast = SensorManager.GRAVITY_EARTH
 
         result_image.setImageResource(R.drawable.dice_1)
         result_image2.setImageResource(R.drawable.dice_1)
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         //AlertDialogBuilder
         val mBuilder = AlertDialog.Builder(this)
             .setView(mDialogView)
-            .setTitle("Hoşgeldiniz!")
+            .setTitle(getString(R.string.welcome_string))
         //show dialog
         val mAlertDialog = mBuilder.show()
         //login button click of custom layout
@@ -97,7 +96,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             val z = se.values[2]
             mAccelLast = mAccelCurrent
             mAccelCurrent =
-                Math.sqrt((x * x + y * y + z * z).toDouble()).toFloat()
+                sqrt((x * x + y * y + z * z).toDouble()).toFloat()
             val delta = mAccelCurrent - mAccelLast
             mAccel = mAccel * 0.9f + delta // perform low-cut filter
             if (mAccel > 12) {
@@ -175,7 +174,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         mediaPlayer.start()
     }
 
-    fun stopAnimation() {
+    private fun stopAnimation() {
         Handler().postDelayed({ result_image.clearAnimation() }, 1500)
         Handler().postDelayed({
             result_image2.clearAnimation()

@@ -28,7 +28,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/dice_1" />
+                app:srcCompat="@drawable/dice_1"
+                android:contentDescription="Result Dice 1"
+                tools:ignore="HardcodedText" />
 
 
             <ImageView
@@ -36,7 +38,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/dice_1" />
+                app:srcCompat="@drawable/dice_1"
+                android:contentDescription="Result Dice 2"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
@@ -65,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Bir önceki zar: 1 - 1"
+        android:text="@string/first_dice"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

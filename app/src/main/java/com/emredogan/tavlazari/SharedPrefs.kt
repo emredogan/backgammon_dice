@@ -1,11 +1,14 @@
 package com.emredogan.tavlazari
 
 import android.content.Context
+import android.content.SharedPreferences
+
+private const val PREFERENCE_NAME = "SharedPreferenceExample"
+private const val PREFERENCE_INTRO_DONT_SHOW = "INTRO_DONT_SHOW"
+
 
 class SharedPrefs(context: Context) {
-    val PREFERENCE_NAME = "SharedPreferenceExample"
-    val PREFERENCE_INTRO_DONT_SHOW = "INTRO_DONT_SHOW"
-    val preference = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+    private val preference: SharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
 
     var dontShowIntro: Boolean
         get() = preference.getBoolean(PREFERENCE_INTRO_DONT_SHOW,false)
