@@ -60,20 +60,23 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="227dp" />
 
+        <TextView
+            android:id="@+id/previousDiceText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.01"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/first_dice"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/previousDiceText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/first_dice"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
