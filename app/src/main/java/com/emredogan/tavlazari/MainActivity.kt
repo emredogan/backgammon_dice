@@ -9,17 +9,22 @@ import android.hardware.SensorManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.math.sqrt
-import kotlin.random.Random
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.intro_dialog.view.*
+import kotlin.math.sqrt
+import kotlin.random.Random
+
+var isDialogVisible: Boolean = false
+
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
+    private val delay_time_dice: Long = 1500
+    private val tag: String = MainActivity::class.java.getName()
 
-    private var isDialogVisible: Boolean = false
     private lateinit var sensorManager: SensorManager
     // acceleration apart from gravity
     private var mAccel =
@@ -42,7 +47,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-        sensorManager.registerListener(mSensorListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL)
+        sensorManager.registerListener(mSensorListener,
+            sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+            SensorManager.SENSOR_DELAY_NORMAL)
         mAccel = 0.00f
         mAccelCurrent = SensorManager.GRAVITY_EARTH
         mAccelLast = SensorManager.GRAVITY_EARTH
@@ -54,39 +61,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             rollDice()
         }
         if (!prefs.dontShowIntro) {
-            showIntroductionDialogue()
+            Util.showIntroductionDialogue(this)
         }
     }
 
-    private fun showIntroductionDialogue() {
-        // Inflate the dialog with custom view
-        val mDialogView = LayoutInflater.from(this).inflate(R.layout.intro_dialog, null)
 
-        val shake = AnimationUtils.loadAnimation(this, R.anim.shake_animation)
-        mDialogView.phoneShakeImage.animation = shake
-        // AlertDialogBuilder
-        val mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
-            .setTitle(getString(R.string.welcome_string))
-        // show dialog
-        val mAlertDialog = mBuilder.show()
-        // login button click of custom layout
-        mDialogView.dismiss_button.setOnClickListener {
-            // dismiss dialog
-            mAlertDialog.dismiss()
-            if (mDialogView.dontShowCheckBox.isChecked) {
-                prefs.dontShowIntro = true
-            }
-        }
-
-        if (mAlertDialog.isShowing) {
-            isDialogVisible = true
-        }
-
-        mAlertDialog.setOnDismissListener {
-            isDialogVisible = false
-        }
-    }
 
     private val mSensorListener: SensorEventListener = object : SensorEventListener {
         override fun onSensorChanged(se: SensorEvent) {
@@ -103,7 +82,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             }
         }
 
-        override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+        override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+            Log.d(tag, "Accuracy change $accuracy")
+        }
     }
 
     override fun onResume() {
@@ -131,55 +112,64 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             previousDiceText.text = prevDiceText
 
             isRolling = true
-            result_image.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim))
-            result_image2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim))
+            startRollAnimation()
 
             roll_button.isClickable = false
             roll_button.setBackgroundColor(resources.getColor(R.color.colorRed))
-            playDiceSound()
+            mediaPlayer.start()
+
 
             randomNumber1 = Random.nextInt(1, 7)
             randomNumber2 = Random.nextInt(1, 7)
 
-            val resourceId1 = when (randomNumber1) {
-                1 -> R.drawable.dice_1
-                2 -> R.drawable.dice_2
-                3 -> R.drawable.dice_3
-                4 -> R.drawable.dice_4
-                5 -> R.drawable.dice_5
-                6 -> R.drawable.dice_6
-                else -> R.drawable.dice_3
-            }
+            setFirstDiceResource()
+            setSecondDiceResource()
 
-            val resourceId2 = when (randomNumber2) {
-                1 -> R.drawable.dice_1
-                2 -> R.drawable.dice_2
-                3 -> R.drawable.dice_3
-                4 -> R.drawable.dice_4
-                5 -> R.drawable.dice_5
-                6 -> R.drawable.dice_6
-                else -> R.drawable.dice_3
-            }
-            result_image.setImageResource(resourceId1)
-            result_image2.setImageResource(resourceId2)
-
-            stopAnimation()
+            stopRollAnimation()
             numberOfDicesRolled++
         }
     }
 
-    private fun playDiceSound() {
-        mediaPlayer.start()
+    private fun setSecondDiceResource() {
+        val resourceId2 = when (randomNumber2) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            6 -> R.drawable.dice_6
+            else -> R.drawable.dice_3
+        }
+        result_image2.setImageResource(resourceId2)
     }
 
-    private fun stopAnimation() {
-        Handler().postDelayed({ result_image.clearAnimation() }, 1500)
+    private fun setFirstDiceResource() {
+        val resourceId1 = when (randomNumber1) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            6 -> R.drawable.dice_6
+            else -> R.drawable.dice_3
+        }
+
+        result_image.setImageResource(resourceId1)
+    }
+
+    private fun startRollAnimation() {
+        result_image.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim))
+        result_image2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim))
+    }
+
+    private fun stopRollAnimation() {
+        Handler().postDelayed({ result_image.clearAnimation() }, delay_time_dice)
         Handler().postDelayed({
             result_image2.clearAnimation()
             roll_button.isClickable = true
             roll_button.setBackgroundColor(resources.getColor(R.color.colorGrey))
             isRolling = false
-        }, 1500)
+        }, delay_time_dice)
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
