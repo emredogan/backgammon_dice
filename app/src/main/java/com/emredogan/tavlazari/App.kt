@@ -6,7 +6,7 @@ val prefs: SharedPrefs by lazy {
     App.prefs!!
 }
 
-class App: Application() {
+class App : Application() {
     companion object {
         var prefs: SharedPrefs? = null
     }

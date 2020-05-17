@@ -12,22 +12,24 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.intro_dialog.view.*
 import kotlin.math.sqrt
 import kotlin.random.Random
-
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.intro_dialog.view.*
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private var isDialogVisible: Boolean = false
     private lateinit var sensorManager: SensorManager
-    private var mAccel // acceleration apart from gravity
-            = 0f
-    private var mAccelCurrent // current acceleration including gravity
-            = 0f
-    private var mAccelLast // last acceleration including gravity
-            = 0f
+    // acceleration apart from gravity
+    private var mAccel =
+            0f
+    // current acceleration including gravity
+    private var mAccelCurrent =
+            0f
+    // last acceleration including gravity
+    private var mAccelLast =
+            0f
     private lateinit var mediaPlayer: MediaPlayer
     private var isRolling = false
     private var numberOfDicesRolled = 0
@@ -51,28 +53,28 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         roll_button.setOnClickListener {
             rollDice()
         }
-        if(!prefs.dontShowIntro) {
+        if (!prefs.dontShowIntro) {
             showIntroductionDialogue()
         }
     }
 
     private fun showIntroductionDialogue() {
-        //Inflate the dialog with custom view
+        // Inflate the dialog with custom view
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.intro_dialog, null)
 
-        val shake = AnimationUtils.loadAnimation(this,R.anim.shake_animation)
+        val shake = AnimationUtils.loadAnimation(this, R.anim.shake_animation)
         mDialogView.phoneShakeImage.animation = shake
-        //AlertDialogBuilder
+        // AlertDialogBuilder
         val mBuilder = AlertDialog.Builder(this)
             .setView(mDialogView)
             .setTitle(getString(R.string.welcome_string))
-        //show dialog
+        // show dialog
         val mAlertDialog = mBuilder.show()
-        //login button click of custom layout
+        // login button click of custom layout
         mDialogView.dismiss_button.setOnClickListener {
-            //dismiss dialog
+            // dismiss dialog
             mAlertDialog.dismiss()
-            if(mDialogView.dontShowCheckBox.isChecked) {
+            if (mDialogView.dontShowCheckBox.isChecked) {
                 prefs.dontShowIntro = true
             }
         }
@@ -84,10 +86,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         mAlertDialog.setOnDismissListener {
             isDialogVisible = false
         }
-
     }
-
-
 
     private val mSensorListener: SensorEventListener = object : SensorEventListener {
         override fun onSensorChanged(se: SensorEvent) {
@@ -100,7 +99,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             val delta = mAccelCurrent - mAccelLast
             mAccel = mAccel * 0.9f + delta // perform low-cut filter
             if (mAccel > 12) {
-               rollDice()
+                rollDice()
             }
         }
 
@@ -109,7 +108,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-        mediaPlayer = MediaPlayer.create(applicationContext,R.raw.dice_sound)
+        mediaPlayer = MediaPlayer.create(applicationContext, R.raw.dice_sound)
         sensorManager.registerListener(
             mSensorListener,
             sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
@@ -125,9 +124,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         super.onPause()
     }
 
-
     private fun rollDice() {
-        if(!isRolling && !isDialogVisible) {
+        if (!isRolling && !isDialogVisible) {
             val prevDiceText: String = String.format(
                 resources.getString(R.string.previous_dice_string), randomNumber1, randomNumber2)
             previousDiceText.text = prevDiceText
