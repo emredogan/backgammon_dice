@@ -122,9 +122,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             randomNumber1 = Random.nextInt(1, 7)
             randomNumber2 = Random.nextInt(1, 7)
 
-            setFirstDiceResource()
-            setSecondDiceResource()
-
             stopRollAnimation()
             numberOfDicesRolled++
         }
@@ -165,6 +162,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private fun stopRollAnimation() {
         Handler().postDelayed({ result_image.clearAnimation() }, delay_time_dice)
         Handler().postDelayed({
+            setFirstDiceResource()
+            setSecondDiceResource()
             result_image2.clearAnimation()
             roll_button.isClickable = true
             roll_button.setBackgroundColor(resources.getColor(R.color.colorGrey))
