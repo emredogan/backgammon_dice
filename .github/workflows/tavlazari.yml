@@ -49,7 +49,7 @@ jobs:
     steps:
       
       - name: Build debug APK
-        run: bash ./gradlew assembleDebug --stacktrace
+        run: bash gradlew assembleDebug --stacktrace
     
       - name: Upload APK
         uses: actions/upload-artifact@v1
