@@ -36,3 +36,9 @@ jobs:
     - name: Run a one-line script
       run: echo $GITHUB_RUN_ID and $GITHUB_RUN_NUMBER
       
+    # Put enviromental variables for the gradle  
+    - name: Dump secrets to .env
+      run: env > .env
+      env:
+          REQUIRED_ENV: ${{ secrets.REQUIRED_ENV }}
+      
