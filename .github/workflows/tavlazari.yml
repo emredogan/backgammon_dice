@@ -31,3 +31,8 @@ jobs:
       run: |
         echo Add other actions to build,
         echo test, and deploy your project.
+        
+    # Prints out the GITHUB_RUN_ID and GITHUB_RUN_NUMBER
+    - name: Run a one-line script
+      run: echo $GITHUB_RUN_ID and $GITHUB_RUN_NUMBER
+      
