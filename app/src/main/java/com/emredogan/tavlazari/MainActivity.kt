@@ -22,7 +22,7 @@ var isDialogVisible: Boolean = false
 
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
-    private val delay_time_dice: Long = 1500
+    private val delay_time_dice: Long = 600
     private val tag: String = MainActivity::class.java.getName()
 
     private lateinit var sensorManager: SensorManager
