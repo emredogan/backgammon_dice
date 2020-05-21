@@ -167,6 +167,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             result_image2.clearAnimation()
             roll_button.isClickable = true
             roll_button.setBackgroundColor(resources.getColor(R.color.colorGrey))
+            // Just for testing the versionCode it will be removed
             previousDiceText.text = versionCode.toString()
             isRolling = false
         }, delay_time_dice)
