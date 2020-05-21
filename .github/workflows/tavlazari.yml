@@ -41,10 +41,16 @@ jobs:
       run: env > .env
       env:
           REQUIRED_ENV: ${{ secrets.REQUIRED_ENV }}
-      
-    # Upload debug test apk   
-    - name: Upload APK
-      uses: actions/upload-artifact@v1
-      with:
-        name: app
-        path: app/build/outputs/apk/debug/app-debug.apk 
+  apk:
+    name: Generate APK
+    runs-on: ubuntu-18.04
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Build debug APK
+        run: bash ./gradlew assembleDebug --stacktrace
+    
+      - name: Upload APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: app
+          path: app/build/outputs/apk/debug/app-debug.apk
