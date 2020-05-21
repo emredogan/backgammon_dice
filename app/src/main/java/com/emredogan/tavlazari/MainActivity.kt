@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var randomNumber1 = 1
     private var randomNumber2 = 1
 
+    private val versionCode = BuildConfig.VERSION_CODE
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -164,6 +167,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             result_image2.clearAnimation()
             roll_button.isClickable = true
             roll_button.setBackgroundColor(resources.getColor(R.color.colorGrey))
+            previousDiceText.text = versionCode.toString()
             isRolling = false
         }, delay_time_dice)
     }
