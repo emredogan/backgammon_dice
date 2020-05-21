@@ -1,6 +1,5 @@
 package com.emredogan.tavlazari
 
-import android.app.AlertDialog
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -10,11 +9,9 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.intro_dialog.view.*
 import kotlin.math.sqrt
 import kotlin.random.Random
 
