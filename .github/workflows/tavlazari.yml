@@ -43,14 +43,16 @@ jobs:
           REQUIRED_ENV: ${{ secrets.REQUIRED_ENV }}
   apk:
     name: Generate APK
-    runs-on: windows-latest
+    runs-on: ubuntu-18.04
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      
+      - uses: actions/checkout@v1
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
       - name: Build debug APK
-        run: bash gradlew assembleDebug --stacktrace
-    
+        run: bash ./gradlew assembleDebug --stacktrace
       - name: Upload APK
         uses: actions/upload-artifact@v1
         with:
