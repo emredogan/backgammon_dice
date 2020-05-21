@@ -43,11 +43,10 @@ jobs:
           REQUIRED_ENV: ${{ secrets.REQUIRED_ENV }}
   apk:
     name: Generate APK
-    runs-on: ubuntu-18.04
+    runs-on: windows-latest
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
       
       - name: Build debug APK
         run: bash ./gradlew assembleDebug --stacktrace
