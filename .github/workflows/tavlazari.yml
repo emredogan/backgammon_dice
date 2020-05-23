@@ -41,12 +41,12 @@ jobs:
       run: env > .env
       env:
           REQUIRED_ENV: ${{ secrets.REQUIRED_ENV }}
-    - name: Build debug APK
+    - name: Build Release APK
       run: bash ./gradlew assembleRelease --stacktrace
     - name: Sign Android release
       uses: r0adkll/sign-android-release@v1
       with:
-        releaseDirectory: app/release
+        releaseDirectory: build/app/outputs/apk/release/app-release.apk
         signingKeyBase64: ${{ secrets.KEY_JKS }}
         alias: ${{ secrets.ALIAS }}
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
