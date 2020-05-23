@@ -25,7 +25,7 @@ android {
         release {
             storeFile file("../backgammon_keystore.jks")
             storePassword = "$System.env.KEY_PASSWORD"
-            keyAlias = "release"
+            keyAlias = "backgammon_key0"
             keyPassword = "$System.env.ALIAS_PASSWORD"
         }
     }
