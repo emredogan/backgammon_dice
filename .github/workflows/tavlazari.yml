@@ -41,6 +41,8 @@ jobs:
       run: env > .env
       env:
           REQUIRED_ENV: ${{ secrets.REQUIRED_ENV }}
+    - name: Build debug APK
+      run: bash ./gradlew assembleRelease --stacktrace
     - name: Sign Android release
       uses: r0adkll/sign-android-release@v1
       with:
