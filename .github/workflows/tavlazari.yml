@@ -65,8 +65,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build Debug APK
-        run: bash ./gradlew assembleDebug --stacktrace  
+      - name: Build
+        run: ./gradlew build
+
+      - name: Assemble Release Bundle
+        run: |
+          ./gradlew bundleReleas  
       - name: Build Release APK
         uses: r0adkll/sign-android-release@v1
         with:
