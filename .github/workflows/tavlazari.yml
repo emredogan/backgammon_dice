@@ -65,14 +65,21 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build Debug APK
-        run: bash ./gradlew assembleDebug --stacktrace
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      - name: Build
+        run: ./gradlew build
+
+      - name: Assemble Release Bundle
+        run: |
+          ./gradlew bundleRelease  
       - name: Build Release APK
-        run: bash ./gradlew assembleRelease --stacktrace
-      - name: Upload APK
-        uses: actions/upload-artifact@v1
+        uses: r0adkll/sign-android-release@v1
         with:
-          name: app
-          path: app/release/app-release.aab
+          releaseDirectory: app/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
       
      
