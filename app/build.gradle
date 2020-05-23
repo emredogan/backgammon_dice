@@ -23,7 +23,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("backgammon_keystore.jks")
+          //  storeFile file("backgammon_keystore.jks")
             storePassword = "$System.env.KEY_PASSWORD"
             keyAlias = "backgammon_key0"
             keyPassword = "$System.env.ALIAS_PASSWORD"
