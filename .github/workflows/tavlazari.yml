@@ -67,18 +67,12 @@ jobs:
           java-version: 1.8
       - name: Build debug APK
         run: bash ./gradlew assembleDebug --stacktrace
+      - name: Build Release APK
+        run: bash ./gradlew assembleRelease --stacktrace
       - name: Upload APK
         uses: actions/upload-artifact@v1
         with:
           name: app
-          path: app/build/outputs/apk/debug/app-debug.apk
-      - name: Build Release APK
-        run: bash ./gradlew assembleRelease --stacktrace
-      - name: Sign Android release
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: app/release
-          signingKeyBase64: ${{ secrets.KEY_JKS }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          path: app/release/app-release.aab
+      
+     
