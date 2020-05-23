@@ -68,6 +68,8 @@ jobs:
       - name: Build Debug APK
         run: bash ./gradlew assembleDebug --stacktrace
       - name: Build Release APK
+        run: bash ./gradlew assembleRelease --stacktrace  
+      - name: Build Release APK2
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: app/release
