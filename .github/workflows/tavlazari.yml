@@ -70,7 +70,7 @@ jobs:
 
       - name: Assemble Release Bundle
         run: |
-          ./gradlew bundleReleas  
+          ./gradlew bundleRelease  
       - name: Build Release APK
         uses: r0adkll/sign-android-release@v1
         with:
