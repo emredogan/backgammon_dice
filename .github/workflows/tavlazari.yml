@@ -90,7 +90,7 @@ jobs:
       - name: Deploy to Production
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: service_account.json
+          serviceAccountJson: app/service_account.json
           packageName: com.emredogan.tavlazari
           releaseFile: app/build/outputs/bundle/release/app-release.aab
           track: production
