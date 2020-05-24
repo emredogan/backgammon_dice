@@ -46,7 +46,7 @@ jobs:
         run: bash ./gradlew test --stacktrace
   
   apk:
-    name: Generate APK
+    name: Upload app to GooglePlay
     runs-on: ubuntu-18.04
 
     steps:
