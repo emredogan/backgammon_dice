@@ -3,8 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 // Used to set the package version name and version code
-ext.versionMajor = 4
-ext.versionMinor = 2
+ext.versionMajor = 5
+ext.versionMinor = 0
 
 android {
     compileSdkVersion 29
