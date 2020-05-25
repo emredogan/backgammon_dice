@@ -50,6 +50,6 @@ def computeVersionName() {
 
 // Will return 120042 for Jenkins/GitActions build #42
 def computeVersionCode() {
-    // Major + minor + Jenkins build number (where available)
+    // Major + minor + CI build number (where available)
     return (versionMajor * 100000) + (versionMinor * 10000) + Integer.valueOf(System.env.GITHUB_RUN_NUMBER ?: 0)
 }
