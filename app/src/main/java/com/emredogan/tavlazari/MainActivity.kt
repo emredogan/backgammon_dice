@@ -11,9 +11,10 @@ import android.os.Handler
 import android.util.Log
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import com.emredogan.tavlazari.Utils.Util
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.sqrt
-import kotlin.random.Random
 
 var isDialogVisible: Boolean = false
 
@@ -23,15 +24,18 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private val tag: String = MainActivity::class.java.getName()
 
     private lateinit var sensorManager: SensorManager
+
     // acceleration apart from gravity
     private var mAccel =
-            0f
+        0f
+
     // current acceleration including gravity
     private var mAccelCurrent =
-            0f
+        0f
+
     // last acceleration including gravity
     private var mAccelLast =
-            0f
+        0f
     private lateinit var mediaPlayer: MediaPlayer
     private var isRolling = false
     private var numberOfDicesRolled = 0
@@ -47,9 +51,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-        sensorManager.registerListener(mSensorListener,
+        sensorManager.registerListener(
+            mSensorListener,
             sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-            SensorManager.SENSOR_DELAY_NORMAL)
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
         mAccel = 0.00f
         mAccelCurrent = SensorManager.GRAVITY_EARTH
         mAccelLast = SensorManager.GRAVITY_EARTH
@@ -61,10 +67,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             rollDice()
         }
         if (!prefs.dontShowIntro) {
-            Util.showIntroductionDialogue(this)
+            if(!isRunningTest()) {
+                Util.showIntroductionDialogue(this)
+            }
         }
     }
-
 
 
     private val mSensorListener: SensorEventListener = object : SensorEventListener {
@@ -108,7 +115,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private fun rollDice() {
         if (!isRolling && !isDialogVisible) {
             val prevDiceText: String = String.format(
-                resources.getString(R.string.previous_dice_string), randomNumber1, randomNumber2)
+                resources.getString(R.string.previous_dice_string), randomNumber1, randomNumber2
+            )
             previousDiceText.text = prevDiceText
 
             isRolling = true
@@ -119,8 +127,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             mediaPlayer.start()
 
 
-            randomNumber1 = Random.nextInt(1, 7)
-            randomNumber2 = Random.nextInt(1, 7)
+            randomNumber1 = Util.createRandomNumbersForDice(6)
+            randomNumber2 = Util.createRandomNumbersForDice(6)
 
             stopRollAnimation()
             numberOfDicesRolled++
@@ -179,5 +187,22 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         TODO("Not yet implemented")
+    }
+
+    private var isRunningTest: AtomicBoolean? = null
+
+    @Synchronized
+    fun isRunningTest(): Boolean {
+        if (null == isRunningTest) {
+            val istest: Boolean
+            istest = try {
+                Class.forName("androidx.test.espresso.Espresso")
+                true
+            } catch (e: ClassNotFoundException) {
+                false
+            }
+            isRunningTest = AtomicBoolean(istest)
+        }
+        return isRunningTest!!.get()
     }
 }
