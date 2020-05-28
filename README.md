@@ -29,7 +29,9 @@ Two functions are created namely `computeVersionName` and `computeVersionCode`
 
 GitHub Actions is used to run unit tests and upload APK to the Google Play. If needed we can also upload generated aab file to the repo as well.
 
- `unit_test.yml` workflow runs the unit tests in the app.
+ `unit_test.yml` workflow runs the unit tests and Espresso UI tests in the app.
+ 
+ One interesting note about Espresso ui tests is that, it waits patiently to animations in the app to finish. But if you have repeating animation which goes on forever this would make your espresso test to eventually crash. It is suggested to disabled animations in your emulator or device but this does not work for all the animations. In this code as a work around, it is checked if the test is running and animation running dialog view is not shown in that case.
  
  `upload_to_google_play.yml` workflow have bit more heavier work included. There are some files and password strings which are required to sign and upload the app to the Google Play. Those files and strings are registered in GitHub as secrets and various actions in the workflow use those secrets when needed.
  
