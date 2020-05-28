@@ -1,17 +1,23 @@
-package com.emredogan.tavlazari
+package com.emredogan.tavlazari.Utils
 
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
+import com.emredogan.tavlazari.R
+import com.emredogan.tavlazari.isDialogVisible
+import com.emredogan.tavlazari.prefs
 import kotlinx.android.synthetic.main.intro_dialog.view.*
+import kotlin.random.Random
 
 object Util {
      fun showIntroductionDialogue(context: Context) {
         // Inflate the dialog with custom view
         val mDialogView = LayoutInflater.from(context).inflate(R.layout.intro_dialog, null)
 
-        val shake = AnimationUtils.loadAnimation(context, R.anim.shake_animation)
+        val shake = AnimationUtils.loadAnimation(context,
+            R.anim.shake_animation
+        )
         mDialogView.phoneShakeImage.animation = shake
         // AlertDialogBuilder
         val mBuilder = AlertDialog.Builder(context)
@@ -35,5 +41,9 @@ object Util {
         mAlertDialog.setOnDismissListener {
             isDialogVisible = false
         }
+    }
+
+    fun createRandomNumbersForDice(lastNumber: Int): Int {
+        return  Random.nextInt(1, lastNumber+1)
     }
 }
